@@ -11,8 +11,7 @@ import websockets
 
 XIAOZHI_MCP_WSS = "wss://api.xiaozhi.me/mcp/?token=eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjkxMTE3OSwiYWdlbnRJZCI6MTc1Njc0MiwiZW5kcG9pbnRJZCI6ImFnZW50XzE3NTY3NDIiLCJwdXJwb3NlIjoibWNwLWVuZHBvaW50IiwiaWF0IjoxNzk1MDA0NTcwLCJleHAiOjE4MjY1NjIxNzB9.7XfqkhRWB-tB-GCW-YiX0p9IzYPI6mynRBJLVgPT728rlDXllZB4CBPAiPAzIR-BT-_q4bJR9xMtxSBozH-Jgw"
 
-KOYEB_DOMAIN = os.environ.get("KOYEB_PUBLIC_DOMAIN", "localhost:8000")
-BASE_URL = f"https://{KOYEB_DOMAIN}" if "koyeb.app" in KOYEB_DOMAIN else f"http://{KOYEB_DOMAIN}"
+BASE_URL = os.environ.get("RENDER_EXTERNAL_URL", "http://localhost:10000").rstrip("/")
 
 flask_app = Flask(__name__)
 
@@ -161,6 +160,6 @@ async def mcp_bridge_loop():
             await asyncio.sleep(5)
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8000))
+    port = int(os.environ.get("PORT", 10000))
     threading.Thread(target=lambda: asyncio.run(mcp_bridge_loop()), daemon=True).start()
     flask_app.run(host="0.0.0.0", port=port)
